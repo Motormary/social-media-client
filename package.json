@@ -7,7 +7,7 @@
     "build": "sass src/scss:dist/css",
     "start": "sass --watch src/scss:dist/css & live-server",
     "format": "npx prettier --write .",
-    "lint": "npx eslint . --cache --fix"
+    "lint": "npx eslint index.js src/**/*.js --cache --fix"
   },
   "keywords": [],
   "author": "Noroff",
