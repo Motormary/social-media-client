@@ -18,7 +18,7 @@ describe("login", () => {
     jest.clearAllMocks()
   })
 
-  //** ------------------ Save to local --------------------- */
+  //** ------------------ Login & Save to local --------------------- */
   it("should log in successfully and save profile and token", async () => {
     const mockResponse = {
       accessToken: "mockAccessToken",
