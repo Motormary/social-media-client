@@ -25,7 +25,7 @@ export default [
       ".husky/*",
       ".node_modules/*",
       ".assets/*",
-
+      ".eslintcache"
     ],
   },
   pluginJs.configs.recommended,
