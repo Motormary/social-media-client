@@ -9,10 +9,11 @@
     "format": "npx prettier --write .",
     "lint": "npx eslint index.js src/**/*.js --cache --fix",
     "prepare": "husky install",
-    "test": "npx jest",
+    "test": "npm run test-unit && npm run test-e2e-cli",
     "test-mode": "npx jest --watchAll",
-    "test-e2e": "npx cypress open --e2e -b electron",
-    "test-cy": "npx cypress run --spec 'cypress/e2e/3-testing/**/*'"
+    "test-unit": "jest",
+    "test-e2e": "cypress open",
+    "test-e2e-cli": "cypress run"
   },
   "keywords": [],
   "author": "Noroff",
