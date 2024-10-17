@@ -13,7 +13,7 @@
     "test-mode": "npx jest --watchAll",
     "test-e2e": "npx cypress open --e2e -b electron",
     "test-cy": "npx cypress run --spec 'cypress/e2e/3-testing/**/*'"
-  },
+    },
   "keywords": [],
   "author": "Noroff",
   "license": "ISC",

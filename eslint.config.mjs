@@ -1,6 +1,7 @@
 import globals from "globals"
 import pluginJs from "@eslint/js"
 import jest from "eslint-plugin-jest"
+import pluginCypress from 'eslint-plugin-cypress/flat'
 
 export default [
   {
@@ -16,15 +17,17 @@ export default [
     ...jest.configs["flat/recommended"],
     rules: {
       ...jest.configs["flat/recommended"].rules,
-      "jest/prefer-expect-assertions": "off",
+      "cypress/no-unnecessary-waiting": "off",
+	        "no-unused-vars": "off"
     },
   },
   {
-    files: ["**/*.cy.js"],
-    env: { "cypress/globals": true },
-    plugins: ["cypress"],
-    extends: ["plugin:cypress/recommended"],
+    plugins: {
+      cypress: pluginCypress,
+    },
+    files: ["cypress/e2e/3-testing/*.cy.js"],
     rules: {
+      ...pluginCypress.rules,
       "cypress/no-unnecessary-waiting": "off",
       "no-unused-vars": "off",
     },
@@ -36,6 +39,7 @@ export default [
       ".node_modules/*",
       ".assets/*",
       ".eslintcache",
+      ".husky/",
     ],
   },
   pluginJs.configs.recommended,
