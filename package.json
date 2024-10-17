@@ -10,7 +10,9 @@
     "lint": "npx eslint index.js src/**/*.js --cache --fix",
     "prepare": "husky install",
     "test": "npx jest",
-    "test-mode": "npx jest --watchAll"
+    "test-mode": "npx jest --watchAll",
+    "test-e2e": "npx cypress open --e2e -b electron",
+    "test-cy": "npx cypress run --spec 'cypress/e2e/3-testing/**/*'"
   },
   "keywords": [],
   "author": "Noroff",
@@ -36,7 +38,7 @@
     "bootstrap-dark-5": "^1.1.3"
   },
   "lint-staged": {
-    "*.js": "eslint index.js src/**/*.js --cache --fix",
+    "*.js": "eslint index.js src/**/*.js --fix",
     "*.{js,css,md,scss,html}": "prettier --write"
   }
 }
