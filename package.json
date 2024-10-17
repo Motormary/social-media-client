@@ -13,7 +13,7 @@
     "test-mode": "npx jest --watchAll",
     "test-e2e": "npx cypress open --e2e -b electron",
     "test-cy": "npx cypress run --spec 'cypress/e2e/3-testing/**/*'"
-    },
+  },
   "keywords": [],
   "author": "Noroff",
   "license": "ISC",
@@ -23,7 +23,7 @@
     "@eslint/js": "^9.12.0",
     "@types/eslint__js": "^8.42.3",
     "cypress": "^13.15.0",
-    "eslint": "^9.12.0",
+    "eslint": "^8.57.1",
     "eslint-plugin-cypress": "^4.0.0",
     "eslint-plugin-jest": "^28.8.3",
     "globals": "^15.11.0",
