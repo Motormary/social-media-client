@@ -1,104 +1,55 @@
+import { API_LOGIN } from "../../fixtures/api.mjs"
+import {
+  invalid_password,
+  invalid_user,
+  valid_user,
+} from "../../fixtures/user.mjs"
+
 describe("Authentication", () => {
-  const api = "https://nf-api.onrender.com/api/v1/social/auth/login"
-
-  //** ------------- Repeat Offenders ------------ */
-  const getLoginModal = () => {
-    cy.visit("/")
-    cy.wait(500)
-    cy.get("#registerForm")
-      .children()
-      .find("button[data-auth=login]")
-      .should("be.visible")
-      .click()
-    cy.wait(500)
-    cy.get("#loginForm").should("be.visible")
-  }
-
-  const fillLoginForm = (email, password) => {
-    // Type and check credentials
-    cy.get("input#loginEmail").type(email).should("have.value", email)
-    cy.get("input#loginPassword").type(password).should("have.value", password)
-  }
-
-  const submitLoginForm = () => {
-    // Submit form like a !!Bot
-    cy.get("#loginForm").find("button").last().click()
-  }
-  //** ------------------ End --------------------- */
-
-  //** ------------------ Test-1 --------------------- */
+  //** ------------------ Test-1 ---------------------
   it("should successfully sign in with valid credentials", () => {
-    const user = {
-      email: "matmoen00100@stud.noroff.no",
-      password: "qweqweqwe",
-    }
-
-    cy.intercept("POST", api, (req) => {
+    cy.intercept("POST", API_LOGIN, (req) => {
       // Double check credentials
-      expect(req.body).to.include(user)
-      req.reply((res) => {
-        // Expect auth to succeed
-        expect(res.statusCode).to.equal(200)
-      })
+      expect(req.body).to.include(valid_user)
     }).as("loginRequest")
 
     // ------
-    getLoginModal()
-    fillLoginForm(user.email, user.password)
-    submitLoginForm()
+    cy.login(valid_user)
     // ------
 
-    cy.wait("@loginRequest")
+    // Check if request was successful
+    cy.wait("@loginRequest").its("response.statusCode").should("equal", 200)
   })
-  //** ------------------ End --------------------- */
+  //** ------------------ End ---------------------
 
-  //** ------------------ Test-2 --------------------- */
-  it("should prevent user from signing in with invalid credentials and show an error", () => {
-    const user = {
-      email: "matmoen00100@stud.noroff.no",
-      password: "Password123",
-    }
-
+  //** ------------------ Test-2 ---------------------
+  it("should prevent user from signing in with invalid user/password and show an error", () => {
     const alertTriggered = cy.stub().as("alertTriggered")
     cy.on("window:alert", alertTriggered)
 
-    cy.intercept("POST", api, (req) => {
+    cy.intercept("POST", API_LOGIN, (req) => {
       // Double check credentials
-      expect(req.body).to.include(user)
-      req.reply((res) => {
-        // Expect auth to fail
-        expect(res.statusCode).to.not.equal(200)
-      })
+      expect(req.body).to.include(invalid_password)
     }).as("loginRequest")
 
     // ------
-    getLoginModal()
-    fillLoginForm(user.email, user.password)
-    submitLoginForm()
+    cy.login(invalid_password)
     // ------
 
-    cy.wait("@loginRequest")
+    // Check if request failed
+    cy.wait("@loginRequest").its("response.statusCode").should("not.equal", 200)
     cy.get("@alertTriggered").should(
       "have.been.calledOnceWith",
       "Either your username was not found or your password is incorrect"
     )
   })
-  //** ------------------ End --------------------- */
+  //** ------------------ End ---------------------
 
-  //** ------------------ Test-3 --------------------- */
+  //** ------------------ Test-3 ---------------------
   it("should prevent users from signing in with an invalid email format and show an error", () => {
-    const user = {
-      email: "matmoen00100@stud.norof.no",
-      password: "qweqweqwe",
-    }
+    cy.login(invalid_user)
 
-    // ------
-    getLoginModal()
-    fillLoginForm(user.email, user.password)
-    submitLoginForm()
-    // ------
-
-    // Check error
+    // Check for error message
     cy.get("input#loginEmail").then(($input) => {
       expect($input[0].validationMessage).to.exist
       expect($input[0].validationMessage).to.contain(
@@ -109,5 +60,5 @@ describe("Authentication", () => {
       )
     })
   })
-  //** ------------------ End --------------------- */
+  //** ------------------ End ---------------------
 })
