@@ -7,7 +7,7 @@
     "build": "sass src/scss:dist/css",
     "start": "sass --watch src/scss:dist/css & live-server",
     "format": "npx prettier --write .",
-    "lint": "npx eslint index.js src/**/*.js --cache --fix",
+    "lint": "npx eslint --cache --fix",
     "prepare": "husky install",
     "test": "npm run test-unit && npm run test-e2e-cli",
     "test-mode": "npx jest --watchAll",
